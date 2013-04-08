@@ -1,4 +1,4 @@
-magento2-developer-docs
-=======================
+magento-developer-docs
+======================
 
-This is an *experimental* area to manage Magento 2 Developer Documentation.
+Magento 2 Developer documentation covering Extensibility and Web APIs
