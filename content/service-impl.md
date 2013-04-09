@@ -1,8 +1,8 @@
 Service Implementation
 ======================
 
-This is the proposed model for implementing Magento services. Using
-a service layer with interfaces described by service IDLs provides the following
+This is the proposed model for implementing Magento services. Using a service
+layer with interfaces described by service IDLs provides the following
 advantages for developing and maintaining Magento extensions:
 
 -   A service encapsulates domain/business logic in a single component.
@@ -16,24 +16,27 @@ advantages for developing and maintaining Magento extensions:
 -   Data access becomes a private concern of the service implementation, which
     increases predictability and compatibility.
 
--   A service can be exposed as a Web API (see [Creating Web APIs][1]).
+-   A service can be exposed as a Web API. To see how this is done, check out
+    [Creating Web APIs][1].
 
-[1]: <http://praveenck.github.io/docs/web-api/>
+[1]: <http://magento.github.io/magento2-developer-docs/web-api/>
 
 -   The data are defined declaratively in schemas, rather than in PHP classes.
 
-Implementing a service
------------------------
+Implementing a Service
+----------------------
 
-The first step in creating a service component is to define the service using the service IDL. The document [here][2] describes how to define a service using the service IDL.
+The first step in creating a service component is to define the service using
+the service IDL.
 
-[2]: <http://praveenck.github.io/docs/service-idl/>
+Once you have defined a service IDL, you implement the service using a PHP
+class. You make the public methods of this PHP class available to your
+extension's presentation layer, which uses the methods to access data.
 
-Assuming you have already defined a service IDL, implementing a service is very simple. A service is implemented using a php class. The public methods of this php class can be made available for the presentation layer to access data.
+As an example, the documentation for the Product service IDL [here][2] describes
+how to define a service using the service IDL.
 
-As an example, lets look at the Product service whose Service IDL is documented [here][3].
-
-[3]: <http://praveenck.github.io/docs/service-idl/>
+[2]: <http://magento.github.io/magento2-developer-docs/service-idl/>
 
 The source code for Product service is [here][4]
 
@@ -43,14 +46,16 @@ The service has a method, `item` (<i>line 117</i>). The method takes a single
 parameter, which is the product ID, and retrieves product data in an array
 defined by the response schema.
 
+The `@Consumes` annotation names the schema for the request, and `@Produces`
+annotation names the schema for the response defined in the IDL. (By the way,
+`@Version` refers to the version of the service, not the individual call.)
 
-The `@Consumes` annotation names the schema for the request, and `@Produces` annotation names the schema for the response defined in the IDL.
+The business logic for the service method is implemented using models and
+resource models.
 
-`@Version` refers to the version of the service, not the individual call.
-
-The business logic for the service method is implemented using models and resource models.
-
-Once the service has been implemented as a php class, we can make the public methods of the service available by declaring the service-calls in [service-calls.xml][5]. Such a declaration will make the service calls available to the presentation tier components.
+Once you have implemented the service as a PHP class, you make the public
+methods of the service available to the presentation tier components by
+declaring the service-calls in [service-calls.xml][5].
 
 [5]: <https://github.com/magento/magento2/blob/master/app/code/Mage/Catalog/etc/service-calls.xml>
 
@@ -73,7 +78,9 @@ Once the service has been implemented as a php class, we can make the public met
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once the service is implemented and its service methods are declared as service-calls, to invoke the service-call, we can include the following declaration in layout.xml
+Once the service is implemented and its service methods are declared as
+service-calls, you invoke the service-call by including the following
+declaration in layout.xml
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -86,12 +93,14 @@ Once the service is implemented and its service methods are declared as service-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Product service-calls are invoked in the Catalog Product layout when rendering the templates associated with the Product View page. For details, you can refer to the [layout.xml][6] for Catalog Product.
+The Product service-calls are invoked in the Catalog Product layout when
+rendering the templates for the Product View page. For details, you can refer to
+the [layout.xml][6] for Catalog Product.
 
 [6]: <https://github.com/magento/magento2/blob/master/app/code/Mage/Catalog/view/frontend/layout.xml>
 
-
-Below are details of the input and output data schema for Product service item method.
+Below are details of the input and output data schema for Product service item
+method.
 
 ### Input Schema 
 
@@ -112,10 +121,10 @@ This schema defines the service's single request parameter.
 </tr>
 </table>
 
+### Output Schema
 
-### Output Schema 
-
-This schema defines the array to be returned  by the product service item method.
+This schema defines the array to be returned  by the product service item
+method.
 
 <table style="border:1px solid black;border-collapse:collapse;">
 <tr>
@@ -792,4 +801,5 @@ This schema defines the array to be returned  by the product service item method
 <td style="border:1px solid black;"> 1 </td>
 </tr>
 </table>
+
 
