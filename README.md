@@ -68,4 +68,4 @@ http://code.google.com/p/tortoisegit/
 1. Run Pageant and add your private key to it. This should prevent TortoiseGit from asking for your password. Pageant should always be running in the background.
 1.	(Optional?) Point to your private key from tortoisegit settings (Git > Remote > Putty Key).
 1.	Use TortoiseGit gitclone to create a local version of the repository. Example:
-`git@github.paypal.com:dev-docs/paypal-developer-docs.git`
+`git@github.com:magento/magento2-developer-docs.git`
